@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACDC | Automated Creation of Digital Cousins for Robust Policy Learning</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<div class="full-page-image">
+    <video id="bg-video" autoplay loop muted playsinline>
+        <source src="assets/videos/full_screen.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+    <div class="content" style="padding: 0 20px">
+        <h1><span style="color:#7B54F5;">ACDC:</span> <span
+                style="background: linear-gradient(to right, #0150ff 0%, #EC5FA1 100%); -webkit-text-fill-color: transparent; -webkit-background-clip: text">Automated Creation of</span>
+            <span style="color:#EC5FA1;">Digital Cousins</span> for Robust Policy Learning</h1>
+        <p>A policy trained in simulation with ACDC can successfully transfer to the real world and open a cabinet.</p>
+    </div>
+</div>
+
+<div id="title_slide">
+
+    <div class="title_left">
+
+        <div class="allegrofail">
+            <div class="video_container">
+                <video loop autoplay muted playsinline preload="metadata">
+                    <source src="assets/videos/acdc_splash_video_isolated_comp.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <h1>ACDC: Automated Creation of Digital Cousins<br>for Robust Policy Learning</h1>
+        <div class="author-container">
+            <div class="author-name">Anonymous Author(s)</div>
+        </div>
+        <br>
+
+        <div id="abstract">
+            <h1>Abstract</h1>
+            <p>
+                Training robot policies in the real world can be unsafe, costly, and difficult to scale. Simulation
+                serves as an inexpensive and potentially limitless source of training data, but suffers from the
+                semantics and physics disparity between simulated and real-world environments. These discrepancies can
+                be minimized by training in <em>digital twins</em>, which serve as virtual replicas of a real scene but
+                are expensive to generate and cannot produce cross-domain generalization. To address these limitations,
+                we propose the concept of <em>digital cousins</em>, a virtual asset or scene that, unlike a <em>digital
+                twin</em>, does not explicitly model a real-world counterpart but still exhibits similar geometric and
+                semantic affordances. As a result, <em>digital cousins</em> simultaneously reduce the cost of generating
+                an analogous virtual environment while also facilitating better generalization across domains by
+                providing a distribution of similar training scenes. Leveraging digital cousins, we introduce a novel
+                method for the <b>A</b>utomatic <b>C</b>reation of <b>D</b>igital <b>C</b>ousins (<b>ACDC</b>), and
+                propose a fully automated real-to-sim-to-real pipeline for generating fully interactive scenes and
+                training robot policies that can be deployed zero-shot in the original scene. We find that <b>ACDC</b>
+                can produce digital cousin scenes that preserve geometric and semantic affordances, and can be used to
+                train policies that outperform policies trained on digital twins, achieving 90% vs. 25% under zero-shot
+                sim-to-real transfer.
+            </p>
+        </div>
+    </div>
+</div>
+<hr class="rounded">
+<div id="overview">
+    <h1>Method Overview</h1>
+    <p>ACDC is composed of three sequential steps. <b>(1)</b> First, relevant per-object information is
+        <em>extracted</em> the input RGB image. <b>(2)</b> Next, we use this information with an asset dataset to <em>match</em>
+        digital cousins to each detected input object. <b>(3)</b> Finally, we post-process the chosen digital cousins
+        and <em>generate</em> a fully-interactive simulated scene.
+    </p>
+    <!-- <div class="allegrofail">
+        <div class="video_container">
+            <img src="assets/imgs/method_figure.png">
+        </div>
+    </div> -->
+    <div class="allegrofail">
+        <div class="video_container">
+            <video loop autoplay muted playsinline controls preload="metadata">
+                <source src="assets/videos/acdc_method_comp.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <h1>Experiments</h1>
+    <p>We answer the following research questions through experiments:</p>
+    <details>
+        <summary>Research Questions</summary>
+        <p>
+            <i>Q1</i>: Can ACDC produce high-quality digital cousin scenes? Given a single RGB image, can ACDC capture
+            the high-level semantic and spatial details inherent in the original scene?
+            <br>
+            <i>Q2</i>: Can policies trained on digital cousins match the performance of policies trained on a digital
+            twin when evaluated on the original setup?
+            <br>
+            <i>Q3</i>: Do policies trained on digital cousins exhibit better robustness compared to policies trained on
+            a digital twin when evaluated on the out-of-distribution setups?
+            <br>
+            <i>Q4</i>: Do policies trained on digital cousins enable zero-shot sim-to-real policy transfer?
+
+        </p>
+    </details>
+
+    <h1>Scene Reconstruction via ACDC</h1>
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <img src="assets/imgs/experiment_sim2sim_reconstruct.png" style="width: 100%;">
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Quantitative and qualitative evaluation of scene reconstruction by ACDC in a sim-to-sim
+                        scenario.</b> "Scale" is the largest distance between two objects' bounding boxes in the input
+                    scene. "Cat." indicates the ratio of correctly categorized objects to the total number of objects in
+                    the scene. "Mod." shows the ratio of correctly modeled objects to the total number of objects in the
+                    scene. "L2 Dist." provides the mean and standard deviation of the Euclidean distance between the
+                    centers of the bounding boxes in the input and reconstructed scenes. "Ori. Diff." represents the
+                    mean and standard deviation of the orientation magnitude difference of each centrosymmetric object.
+                    "Bbox IoU" presents the Intersection over Union (IoU) for assets' 3D bounding boxes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <!-- <img src="assets/imgs/experiment_real2sim_reconstruct.png" style="width: 100%;"> -->
+
+            <video loop autoplay muted playsinline preload="metadata">
+                <source src="assets/videos/acdc_real2sim_vis_comp.mp4" type="video/mp4">
+            </video>
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Qualitative ACDC real-to-sim scene reconstruction results.</b> Multiple cousins are shown for a given scene.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        Based on these results, we can safely answer <b>Q1</b>: ACDC can indeed preserve semantic and spatial details of
+        input scenes, generating cousins of real-world objects from a single RGB image that can be accurately positioned
+        and scaled to match the original scene.
+    </p>
+
+    <h1>Sim-to-Sim Policy Learning with Digital Cousins</h1>
+
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <!-- <img src="assets/imgs/experiment_real2sim_reconstruct.png" style="width: 100%;"> -->
+
+            <video loop autoplay muted playsinline preload="metadata">
+                <source src="assets/videos/acdc_sim2sim_policies_comp.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <img src="assets/imgs/sim2sim_policy_results_figure.png" style="width: 100%;">
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Sim-to-sim policy results.</b> Aggregated success rates of policies trained on the exact twin,
+                    different numbers of cousins, and all assets in the three nearest categories. Policies are tested on
+                    four setups: the exact digital twin, and three increasingly dissimilar setups as measured by DINOv2
+                    embedding distance to probe zero-shot generalization. Note for Task 3, there are much fewer cabinet
+                    models that enable the task to be feasible, so we only compare the digital-twin and 8-cousin
+                    policies.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h1>Sim-to-Real Policy Learning with Digital Cousins</h1>
+
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <!-- <img src="assets/imgs/experiment_real2sim_reconstruct.png" style="width: 100%;"> -->
+
+            <video loop autoplay muted playsinline preload="metadata">
+                <source src="assets/videos/acdc_sim2real_policies_comp.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <img src="assets/imgs/experiment_sim2real.png" style="width: 60%;">
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Zero-shot real-world evaluation of digital twin vs. digital cousin policies.</b> Task is <b>Door
+                    Opening</b> on an IKEA cabinet. Metric is success rate: sim/real results averaged over 50/20 trials.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h1>Real-to-Sim-to-Real Scene Generation and Policy Learning</h1>
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <!-- <img src="assets/imgs/experiment_real2sim_reconstruct.png" style="width: 100%;"> -->
+
+            <video loop autoplay muted playsinline preload="metadata">
+                <source src="assets/videos/acdc_pipeline_no_cut_comp.mp4" type="video/mp4">
+            </video>
+
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Fully automated digital cousin generation.</b> No cut video of <b>ACDC</b> being executed <b>fully automatically</b>, generating multiple digital cousins for a real kitchen scene.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="allegrofail">
+        <div class="video_container" style="text-align: center">
+            <!-- <img src="assets/imgs/experiment_real2sim_reconstruct.png" style="width: 100%;"> -->
+
+            <video loop autoplay muted playsinline preload="metadata">
+                <source src="assets/videos/acdc_end2end_policies_comp.mp4" type="video/mp4">
+            </video>
+            <div class="caption" style="text-align: left">
+                <p>
+                    <b>Zero-shot sim-to-real policy transfer.</b> A sim policy exclusively trained from four digital cousins generated above can transfer in zero-shot to the corresponding real kitchen scene.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        Based on these results, we can safely answer <b>Q2</b>, <b>Q3</b>, and <b>Q4</b>: Policies trained using digital
+        cousins exhibit comparable in-distribution and more robust out-of-distribution performance compared to policies
+        trained on digital twins, and can enable zero-shot sim-to-real policy transfer.
+    </p>
+
+    <h1> Failure Cases </h1>
+
+    <div class="allegroupper">
+        <video autoplay muted playsinline loop preload="metadata">
+            <source src="assets/videos/cousin_sim2real_policy_fail0_comp.mp4" type="video/mp4">
+        </video>
+        <video autoplay muted playsinline loop preload="metadata">
+            <source src="assets/videos/cousin_sim2real_policy_fail1_comp.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="allegrolower">
+        <div class="video_container">
+            <video autoplay muted playsinline loop preload="metadata">
+                <source src="assets/videos/cousin_sim2real_policy_fail2_comp.mp4" type="video/mp4">
+            </video>
+            <div class="caption">
+                <p><b>Several failure cases.</b> e.g.: failing to move towards the handle, missing the handle, handle slippage.</p>
+            </div>
+        </div>
+        <div class="video_container">
+            <video autoplay muted playsinline loop preload="metadata">
+                <source src="assets/videos/cousin_sim2real_policy_fail3_exp_comp.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <h1>Conclusion</h1>
+    <p>
+        ACDC is a fully automated pipeline used to quickly generate fully interactive digital cousin scenes
+        corresponding to a single real-world RGB image. We find that policies trained on these digital cousin setups are
+        more robust than those trained on digital twins, with comparable in-domain performance and superior
+        out-of-domain generalization, and enable zero-shot sim-to-real policy transfer.
+    </p>
+    <br>
+</div>
+</body>
+
+<script src="assets/js/full_screen_video.js"></script>
+<script src="assets/js/carousel.js"></script>
+</html>
